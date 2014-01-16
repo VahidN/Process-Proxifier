@@ -1,0 +1,28 @@
+﻿<Application x:Class="ProcessProxifier.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Common.xaml"/>
+                <ResourceDictionary Source="Themes/ICons.xaml" />
+                <ResourceDictionary Source="Themes/Css.xaml" />
+                <ResourceDictionary Source="Themes/Colors.xaml" />
+                <ResourceDictionary Source="Themes/ToolTip.xaml" />
+                <ResourceDictionary Source="Themes/GroupBox.xaml" />
+                <ResourceDictionary Source="Themes/CheckBox.xaml" />
+                <ResourceDictionary Source="Themes/RadioButton.xaml" />
+                <ResourceDictionary Source="Themes/Button.xaml" />
+                <ResourceDictionary Source="Themes/Scrollbars.xaml" />
+                <ResourceDictionary Source="Themes/ContextMenu.xaml" />
+                <ResourceDictionary Source="Themes/ListView.xaml" />
+                <ResourceDictionary Source="Themes/TextBox.xaml" />
+                <ResourceDictionary Source="Themes/TabControl.xaml" />
+                <ResourceDictionary Source="Themes/ListBox.xaml" />
+                <ResourceDictionary Source="Themes/Blue.xaml" />
+                <ResourceDictionary Source="Themes/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
