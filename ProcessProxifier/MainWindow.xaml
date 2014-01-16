@@ -1,0 +1,299 @@
+﻿<Window x:Class="ProcessProxifier.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStartupLocation="CenterScreen"
+        xmlns:b="clr-namespace:ProcessProxifier.Behaviors" 
+        xmlns:c="clr-namespace:ProcessProxifier.Converters"
+        xmlns:vm="clr-namespace:ProcessProxifier.ViewModels"
+        Title="ProcessProxifier V1.0" Height="615" Width="731">
+    <Window.Resources>
+        <vm:MainWindowViewModel x:Key="VmMainWindowViewModel" />
+        <c:FileToImageIconConverter x:Key="CFileToImageIconConverter" />
+        <c:EnumBooleanConverter x:Key="CEnumBooleanConverter" />
+    </Window.Resources>
+    <Grid DataContext="{Binding Source={StaticResource VmMainWindowViewModel}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="200" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel VerticalAlignment="Stretch" Orientation="Horizontal" Grid.Row="0"  Margin="5">
+            <Button x:Name="BtnStart" IsEnabled="{Binding GuiModelData.IsEnabled}"
+                Command="{Binding DoStart}" Width="30" Height="30"
+                ToolTip="Start">
+                <Rectangle Width="10" Height="10">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"	Visual="{StaticResource appbar_play}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+
+            <Button Width="30" Height="30"
+                Command="{Binding DoStop}"
+                ToolTip="Stop">
+                <Rectangle Width="10" Height="10">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"	Visual="{StaticResource appbar_stop}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Rectangle Name="Rectangle" Height="23" Width="1" Fill="Gray" VerticalAlignment="Stretch" Margin="2,0" />
+            <Button Width="30" Height="30"
+                Command="{Binding DoSave}"
+                ToolTip="Save Settings">
+                <Rectangle Width="10" Height="10">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"	Visual="{StaticResource appbar_disk}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Button Width="30" Height="30"
+                Command="{Binding DoRefresh}"
+                ToolTip="Refresh Processes List">
+                <Rectangle Width="10" Height="10">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"	Visual="{StaticResource appbar_refresh}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Button Width="30" Height="30"
+                Command="{Binding DoClearLogs}"
+                ToolTip="Clear logs">
+                <Rectangle Width="10" Height="10">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"	Visual="{StaticResource appbar_page_minus}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+            <Rectangle Name="Rectangle2" Height="23" Width="1" Fill="Gray" VerticalAlignment="Stretch" Margin="2,0" />
+        </StackPanel>
+
+        <GroupBox Margin="5" Grid.Row="1" Header="Default Settings" IsEnabled="{Binding GuiModelData.IsEnabled}" >
+            <Grid Margin="5"                               
+                  FocusManager.FocusedElement="{Binding ElementName=TxtServerIp}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="3" Text="Server IP" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding GuiModelData.DefaultServerInfo.ServerIP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+									                    NotifyOnValidationError=True, ValidatesOnDataErrors=True, 
+                                                        ValidatesOnExceptions=True}"
+                         Name="TxtServerIp"
+                         Margin="3"  Width="150" HorizontalAlignment="Left" TabIndex="2" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" Text="Server Port" />
+                <TextBox Grid.Column="1" Grid.Row="1" 
+                         Text="{Binding GuiModelData.DefaultServerInfo.ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+						                NotifyOnValidationError=True, ValidatesOnDataErrors=True, 
+                                        ValidatesOnExceptions=True}"
+                         Margin="3" Width="150" HorizontalAlignment="Left" TabIndex="3" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Server Type" Margin="3" />
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                    <RadioButton Content="Socks Server" IsChecked="{Binding GuiModelData.DefaultServerInfo.ServerType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CEnumBooleanConverter}, ConverterParameter=Socks}" Margin="3" GroupName="G1" />
+                    <RadioButton Content="HTTP Proxy Server" IsChecked="{Binding GuiModelData.DefaultServerInfo.ServerType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CEnumBooleanConverter}, ConverterParameter=Proxy}" Margin="3" GroupName="G1" />
+                </StackPanel>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="3" Text="Proxifier Port" />
+                <TextBox Grid.Column="1" Grid.Row="3" 
+                         Text="{Binding GuiModelData.ProxifierPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+						                NotifyOnValidationError=True, ValidatesOnDataErrors=True, 
+                                        ValidatesOnExceptions=True}"
+                         Margin="3" Width="150" HorizontalAlignment="Left" TabIndex="3" />
+
+                <CheckBox Grid.Row="5" Grid.Column="0" TabIndex="7" 
+                          IsChecked="{Binding GuiModelData.RunOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+									          NotifyOnValidationError=True, ValidatesOnDataErrors=True, 
+                                              ValidatesOnExceptions=True}"
+                          Margin="3" Content="Run on Startup"  />
+            </Grid>
+        </GroupBox>
+
+        <GridSplitter
+                   Grid.Row="3"
+                   HorizontalAlignment="Stretch" 
+                   VerticalAlignment="Top"              
+                   ShowsPreview="true"
+                   ResizeDirection="Rows"
+                   Panel.ZIndex="1"            
+                   Height="3" />
+
+        <GroupBox Margin="5" Grid.Row="2" Header="Proxify selected process(es)">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0" 
+                    b:TextboxHelper.Watermark="Search"
+                    Text="{Binding GuiModelData.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="0,0,0,3" />
+                <ListView IsSynchronizedWithCurrentItem="True" Grid.Row="1"
+                          SelectedItem="{Binding GuiModelData.SelectedProcess}"
+                          ItemsSource="{Binding GuiModelData.ProcessesListDataView}" 
+                          b:GridViewSortBehavior.AutoSort="True"   
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ScrollViewer.CanContentScroll="True"
+                          VirtualizingStackPanel.IsVirtualizing="True"
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                          MinHeight="100">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel 
+                                    IsVirtualizing="True" 
+                                    VirtualizationMode="Recycling" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="45" b:GridViewSortBehavior.PropertyName="IsEnabled">
+                                <GridViewColumn.Header>
+                                    <CheckBox Margin="3" IsChecked="{Binding GuiModelData.AreAllChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </GridViewColumn.Header>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Margin="3" HorizontalAlignment="Center" IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="70" Header="PID" b:GridViewSortBehavior.PropertyName="Pid">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Center"  Margin="3" Text="{Binding Pid, Mode=OneTime}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="140" Header="Process" b:GridViewSortBehavior.PropertyName="Name">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="3">
+                                            <Image Height="16" Width="16" Margin="1" Source="{Binding Path, Mode=OneTime, Converter={StaticResource CFileToImageIconConverter}}" />
+                                            <TextBlock Margin="1" Text="{Binding Name, Mode=OneTime}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="120" Header="Server IP" b:GridViewSortBehavior.PropertyName="ServerInfo.ServerIP">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Margin="3" HorizontalAlignment="Stretch" 
+                                                 Text="{Binding ServerInfo.ServerIP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="110" Header="Server Port" b:GridViewSortBehavior.PropertyName="ServerInfo.ServerPort">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <TextBox Margin="3" HorizontalAlignment="Stretch" 
+                                                     Text="{Binding ServerInfo.ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="150" Header="Server Type"  b:GridViewSortBehavior.PropertyName="ServerInfo.ServerType">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <RadioButton Content="Socks" 
+                                                         IsChecked="{Binding ServerInfo.ServerType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CEnumBooleanConverter}, ConverterParameter=Socks}" Margin="3"  />
+                                            <RadioButton Content="HTTP Proxy" 
+                                                         IsChecked="{Binding ServerInfo.ServerType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CEnumBooleanConverter}, ConverterParameter=Proxy}" Margin="3"  />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding DoUseDefaultSettings}" Header="Use default settings">
+                                <MenuItem.Icon>
+                                    <Image Stretch="UniformToFill" Width="16" Height="16"  Source="images/CopyHS.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                </ListView>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Margin="5" Grid.Row="3" Header="Routed connections summary">
+            <Grid Margin="5">
+                <ListView b:AutoScrollListBox.AutoScroll="True" 
+                          IsSynchronizedWithCurrentItem="True"
+                          b:GridViewSortBehavior.AutoSort="True"
+                          b:AutoSizeListViewColumns.Enable="True"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ScrollViewer.CanContentScroll="True"
+                          VirtualizingStackPanel.IsVirtualizing="True"
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                          SelectedItem="{Binding GuiModelData.SelectedRoutedConnection}"
+                          ItemsSource="{Binding GuiModelData.RoutedConnectionsList}" MinHeight="100">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel 
+                                    IsVirtualizing="True" 
+                                    VirtualizationMode="Recycling" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="140" Header="Process" b:GridViewSortBehavior.PropertyName="ProcessName">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="3">
+                                            <Image Height="16" Width="16" Margin="1" Source="{Binding ProcessPath, Mode=OneTime, Converter={StaticResource CFileToImageIconConverter}}" />
+                                            <TextBlock Margin="1" Text="{Binding ProcessName, Mode=OneTime}"  />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Url" 
+                                            b:AutoSizeListViewColumns.AutoSizeColumn="True"
+                                            b:GridViewSortBehavior.PropertyName="Url">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding Url, Mode=OneTime}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding DoClearLogsList}" Header="Clear list">
+                                <MenuItem.Icon>
+                                    <Image Stretch="UniformToFill" Width="16" Height="16" Source="images/delete.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Command="{Binding DoCopySelectedLine}"                               
+                              Header="Copy selected line to clipboard">
+                                <MenuItem.Icon>
+                                    <Image Stretch="UniformToFill" Width="16" Height="16"  Source="images/CopyHS.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Command="{Binding DoCopyAllLines}" Header="Copy all lines to clipboard">
+                                <MenuItem.Icon>
+                                    <Image Stretch="UniformToFill" Width="16" Height="16" Source="images/copy.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                </ListView>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

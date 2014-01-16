@@ -1,0 +1,23 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush Color="#232E33" x:Key="BodyBackgroundColor" />
+    <SolidColorBrush Color="#191919" x:Key="FooterBackgroundColor" />
+    <SolidColorBrush Color="#646C73" x:Key="FooterFontColor" />
+    <SolidColorBrush Color="Black" x:Key="HeaderColor" />
+    <SolidColorBrush Color="White" x:Key="HeaderFontColor" />
+    <SolidColorBrush Color="White" x:Key="ContentColor" />
+
+
+
+    <Style TargetType="UserControl">
+        <Setter Property="FontFamily" Value="Tahoma" />
+        <Setter Property="FontSize" Value="11" />
+    </Style>
+
+    <Style TargetType="ToolTip">
+        <Setter Property="FontFamily" Value="Tahoma" />
+        <Setter Property="FontSize" Value="11" />
+    </Style>
+</ResourceDictionary>
