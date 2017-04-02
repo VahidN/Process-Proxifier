@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using ProcessProxifier.Models;
+using ProcessProxifier.Utils;
 
 namespace ProcessProxifier.Core
 {
@@ -15,7 +16,7 @@ namespace ProcessProxifier.Core
                 {
                     var ns = new XmlSerializerNamespaces(); ns.Add("", "");
                     var xmlSerializer = new XmlSerializer(typeof(ProxifierSettings));
-                    xmlSerializer.Serialize(streamWriter, data, ns);                    
+                    xmlSerializer.Serialize(streamWriter, data, ns);
                 }
             }
         }
@@ -29,7 +30,10 @@ namespace ProcessProxifier.Core
 
             var xmlSerializer = new XmlSerializer(typeof(ProxifierSettings));
             var ctx = XDocument.Load(configFilePath);
-            return (ProxifierSettings)xmlSerializer.Deserialize(ctx.Root.CreateReader());
+            var result = (ProxifierSettings)xmlSerializer.Deserialize(ctx.Root.CreateReader());
+            result.ProcessesList = new AsyncObservableCollection<Process>();
+            result.RoutedConnectionsList = new AsyncObservableCollection<RoutedConnection>();
+            return result;
         }
     }
 }

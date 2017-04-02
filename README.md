@@ -1,5 +1,6 @@
 Process Proxifier uses FiddlerCore to add proxy settings to the Windows applications. Using FiddlerCore and its beforeRequest callback mechanism and setting 'X-OverrideGateway', it's possible to define an HTTP Proxy or Socks for the specific process in Windows.
- 
+
+![Process Proxifier](/ProcessProxifier/Images/pp.png) 
 
 How to use it
 ---
@@ -8,7 +9,7 @@ First you need to define its default proxy settings and then select the process 
 
 Supported Operating Systems
 ---
-Windows 7+;Windows Server 2003 Service Pack 2;Windows Server 2008;Windows Server 2008 R2;Windows Vista Service Pack 1+;Windows XP Service Pack 3
+   - Windows XP Service Pack 3+
 
  
 

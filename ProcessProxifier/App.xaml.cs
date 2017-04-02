@@ -49,13 +49,11 @@ namespace ProcessProxifier
         {
             var ex = (Exception)e.ExceptionObject;
             ExceptionLogger.LogExceptionToFile(ex);
-            MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private static void appDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             ExceptionLogger.LogExceptionToFile(e.Exception);
-            MessageBox.Show(e.Exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             e.Handled = true;
         }
     }

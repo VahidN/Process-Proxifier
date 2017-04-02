@@ -7,13 +7,12 @@ namespace ProcessProxifier.Models
     public class ProxifierSettings : INotifyPropertyChanged
     {
         #region Fields (11)
-
         bool _areAllChecked;
         bool _isEnabled = true;
-        AsyncObservableCollection<Process> _processesList = new AsyncObservableCollection<Process>();
+        AsyncObservableCollection<Process> _processesList;
         ICollectionView _processesListDataView;
         int _proxifierPort = 5656;
-        AsyncObservableCollection<RoutedConnection> _routedConnectionsList = new AsyncObservableCollection<RoutedConnection>();
+        AsyncObservableCollection<RoutedConnection> _routedConnectionsList;
         bool _runOnStartup = true;
         string _searchText;
         Process _selectedProcess;
@@ -60,7 +59,7 @@ namespace ProcessProxifier.Models
 
         public AsyncObservableCollection<Process> ProcessesList
         {
-            get { return _processesList; }
+            get { return _processesList ?? new AsyncObservableCollection<Process>(); }
             set
             {
                 _processesList = value;

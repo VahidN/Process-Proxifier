@@ -60,7 +60,7 @@ namespace ProcessProxifier.ViewModels
 
         #region Methods (14)
 
-        // Private Methods (14) 
+        // Private Methods (14)
 
         bool canDoStart(string data)
         {
@@ -163,9 +163,18 @@ namespace ProcessProxifier.ViewModels
             _taskScheduler.Start();
             _taskScheduler.DoWork = () =>
             {
-                if (GuiModelData.RoutedConnectionsList.Count > 1000)
+                try
                 {
-                    GuiModelData.RoutedConnectionsList.Clear();
+                    ProcessesListManager.UpdateProcesses(GuiModelData, _settings);
+
+                    if (GuiModelData.RoutedConnectionsList.Count > 500)
+                    {
+                        GuiModelData.RoutedConnectionsList.Clear();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionLogger.LogExceptionToFile(ex);
                 }
             };
         }
@@ -191,7 +200,11 @@ namespace ProcessProxifier.ViewModels
 
         private void setupData()
         {
-            GuiModelData = new ProxifierSettings();
+            GuiModelData = new ProxifierSettings
+            {
+                RoutedConnectionsList = new AsyncObservableCollection<RoutedConnection>(),
+                ProcessesList = new AsyncObservableCollection<Process>()
+            };
             GuiModelData.PropertyChanged += guiModelDataPropertyChanged;
             GuiModelData.ProcessesListDataView = CollectionViewSource.GetDefaultView(GuiModelData.ProcessesList);
         }

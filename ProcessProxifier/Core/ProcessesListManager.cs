@@ -12,7 +12,9 @@ namespace ProcessProxifier.Core
             var processesList = System.Diagnostics.Process.GetProcesses().OrderBy(x => x.ProcessName).ToList();
 
             var finishedProcesses = guiModelData.ProcessesList
-                                                .Where(x => !processesList.Select(p => p.Id).Contains(x.Pid)).ToList();
+                                                .Where(x => !processesList.Select(p => p.Id).Contains(x.Pid)
+                                                            && !x.IsEnabled)
+                                                .ToList();
             foreach (var process in finishedProcesses)
             {
                 guiModelData.ProcessesList.Remove(process);
