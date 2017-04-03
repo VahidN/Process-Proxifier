@@ -11,8 +11,6 @@ namespace ProcessProxifier.Core
 
     public class ProxyRouter
     {
-        #region Properties (4)
-
         public ServerInfo DefaultServerInfo { set; get; }
 
         public int FiddlerPort { set; get; }
@@ -20,10 +18,6 @@ namespace ProcessProxifier.Core
         public AsyncObservableCollection<Process> ProcessesList { set; get; }
 
         public AsyncObservableCollection<RoutedConnection> RoutedConnectionsList { set; get; }
-
-        #endregion Properties
-
-        #region Methods (5)
 
         // Public Methods (2) 
 
@@ -90,7 +84,5 @@ namespace ProcessProxifier.Core
 
             e.ValidityState = CertificateValidity.ForceValid;
         }
-
-        #endregion Methods
     }
 }

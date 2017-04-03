@@ -40,6 +40,10 @@
       <HintPath>..\Libs\DotNet4\FiddlerCore4.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -79,6 +83,7 @@
     <Compile Include="Utils\ExceptionLogger.cs" />
     <Compile Include="Utils\Memory.cs" />
     <Compile Include="Utils\MinimizeToTray.cs" />
+    <Compile Include="Utils\ProcessUtils.cs" />
     <Compile Include="Utils\RunOnWindowsStartup.cs" />
     <Compile Include="Core\SettingsSerializer.cs" />
     <Compile Include="Utils\SafeClipboard.cs" />
@@ -187,6 +192,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -1,8 +1,6 @@
 ﻿using System.IO;
-using System.Xml.Linq;
-using System.Xml.Serialization;
+using Newtonsoft.Json;
 using ProcessProxifier.Models;
-using ProcessProxifier.Utils;
 
 namespace ProcessProxifier.Core
 {
@@ -10,15 +8,7 @@ namespace ProcessProxifier.Core
     {
         public static void SaveSettings(ProxifierSettings data, string configFilePath)
         {
-            using (var fileStream = new FileStream(configFilePath, FileMode.Create))
-            {
-                using (var streamWriter = new StreamWriter(fileStream))
-                {
-                    var ns = new XmlSerializerNamespaces(); ns.Add("", "");
-                    var xmlSerializer = new XmlSerializer(typeof(ProxifierSettings));
-                    xmlSerializer.Serialize(streamWriter, data, ns);
-                }
-            }
+            File.WriteAllText(configFilePath, JsonConvert.SerializeObject(data, new JsonSerializerSettings { Formatting = Formatting.Indented  }));
         }
 
         public static ProxifierSettings LoadSettings(string configFilePath)
@@ -28,12 +18,7 @@ namespace ProcessProxifier.Core
                 SaveSettings(new ProxifierSettings(), configFilePath);
             }
 
-            var xmlSerializer = new XmlSerializer(typeof(ProxifierSettings));
-            var ctx = XDocument.Load(configFilePath);
-            var result = (ProxifierSettings)xmlSerializer.Deserialize(ctx.Root.CreateReader());
-            result.ProcessesList = new AsyncObservableCollection<Process>();
-            result.RoutedConnectionsList = new AsyncObservableCollection<RoutedConnection>();
-            return result;
+            return JsonConvert.DeserializeObject<ProxifierSettings>(File.ReadAllText(configFilePath));
         }
     }
 }

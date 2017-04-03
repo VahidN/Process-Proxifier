@@ -7,33 +7,40 @@ namespace ProcessProxifier.Core
 {
     public static class ProcessesListManager
     {
-        public static AsyncObservableCollection<Process> UpdateProcesses(ProxifierSettings guiModelData, ProxifierSettings settings)
+        public static AsyncObservableCollection<Process> UpdateProcesses(
+            ProxifierSettings guiModelData,
+            ProxifierSettings settings)
         {
-            var processesList = System.Diagnostics.Process.GetProcesses().OrderBy(x => x.ProcessName).ToList();
-
+            var systemProcessList = System.Diagnostics.Process.GetProcesses().OrderBy(x => x.ProcessName).ToList();
+            var systemProcessIds = systemProcessList.Select(p => p.Id).ToList();
             var finishedProcesses = guiModelData.ProcessesList
-                                                .Where(x => !processesList.Select(p => p.Id).Contains(x.Pid)
-                                                            && !x.IsEnabled)
-                                                .ToList();
+                      .Where(process => !systemProcessIds.Contains(process.Pid))
+                      .ToList();
+
+            if (finishedProcesses.Any())
+            {
+                SettingsManager.SaveSettings(guiModelData, settings);
+            }
+
             foreach (var process in finishedProcesses)
             {
                 guiModelData.ProcessesList.Remove(process);
             }
 
-            var newProcesses = processesList.Where(x => !guiModelData.ProcessesList.Select(p => p.Pid).Contains(x.Id)).ToList();
-
-            foreach (var process in newProcesses)
+            var guiProcessIds = guiModelData.ProcessesList.Select(process => process.Pid).ToList();
+            var newSystemProcesses = systemProcessList.Where(process => !guiProcessIds.Contains(process.Id)).ToList();
+            foreach (var systemProcess in newSystemProcesses)
             {
-                var path = getPath(process);
+                var path = systemProcess.GetPath();
                 var newProcess = new Process
                 {
-                    Name = process.ProcessName,
-                    Pid = process.Id,
+                    Name = systemProcess.ProcessName,
+                    Pid = systemProcess.Id,
                     Path = path
                 };
 
-                var settingsProcess = settings.ProcessesList
-                                               .FirstOrDefault(x => x.Path.Equals(path, StringComparison.InvariantCultureIgnoreCase));
+                var settingsProcess = settings.ActiveProcessesList
+                                              .FirstOrDefault(x => x.Path.Equals(path, StringComparison.InvariantCultureIgnoreCase));
                 if (settingsProcess != null)
                 {
                     newProcess.IsEnabled = settingsProcess.IsEnabled;
@@ -49,18 +56,6 @@ namespace ProcessProxifier.Core
             }
 
             return guiModelData.ProcessesList;
-        }
-
-        private static string getPath(System.Diagnostics.Process process)
-        {
-            try
-            {
-                return process.MainModule.FileName;
-            }
-            catch
-            {
-                return string.Empty;
-            }
         }
     }
 }

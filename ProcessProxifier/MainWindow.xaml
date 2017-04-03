@@ -2,10 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
-        xmlns:b="clr-namespace:ProcessProxifier.Behaviors" 
+        xmlns:b="clr-namespace:ProcessProxifier.Behaviors"
         xmlns:c="clr-namespace:ProcessProxifier.Converters"
         xmlns:vm="clr-namespace:ProcessProxifier.ViewModels"
-        Title="ProcessProxifier V1.1" Height="615" Width="731">
+        Title="ProcessProxifier V1.2" Height="615" Width="731">
     <Window.Resources>
         <vm:MainWindowViewModel x:Key="VmMainWindowViewModel" />
         <c:FileToImageIconConverter x:Key="CFileToImageIconConverter" />
@@ -71,7 +71,7 @@
         </StackPanel>
 
         <GroupBox Margin="5" Grid.Row="1" Header="Default Settings" IsEnabled="{Binding GuiModelData.IsEnabled}" >
-            <Grid Margin="5"                               
+            <Grid Margin="5"
                   FocusManager.FocusedElement="{Binding ElementName=TxtServerIp}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -88,15 +88,15 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Margin="3" Text="Server IP" />
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding GuiModelData.DefaultServerInfo.ServerIP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-									                    NotifyOnValidationError=True, ValidatesOnDataErrors=True, 
+									                    NotifyOnValidationError=True, ValidatesOnDataErrors=True,
                                                         ValidatesOnExceptions=True}"
                          Name="TxtServerIp"
                          Margin="3"  Width="150" HorizontalAlignment="Left" TabIndex="2" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" Text="Server Port" />
-                <TextBox Grid.Column="1" Grid.Row="1" 
+                <TextBox Grid.Column="1" Grid.Row="1"
                          Text="{Binding GuiModelData.DefaultServerInfo.ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-						                NotifyOnValidationError=True, ValidatesOnDataErrors=True, 
+						                NotifyOnValidationError=True, ValidatesOnDataErrors=True,
                                         ValidatesOnExceptions=True}"
                          Margin="3" Width="150" HorizontalAlignment="Left" TabIndex="3" />
 
@@ -107,15 +107,15 @@
                 </StackPanel>
 
                 <TextBlock Grid.Row="3" Grid.Column="0" Margin="3" Text="Proxifier Port" />
-                <TextBox Grid.Column="1" Grid.Row="3" 
+                <TextBox Grid.Column="1" Grid.Row="3"
                          Text="{Binding GuiModelData.ProxifierPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-						                NotifyOnValidationError=True, ValidatesOnDataErrors=True, 
+						                NotifyOnValidationError=True, ValidatesOnDataErrors=True,
                                         ValidatesOnExceptions=True}"
                          Margin="3" Width="150" HorizontalAlignment="Left" TabIndex="3" />
 
-                <CheckBox Grid.Row="5" Grid.Column="0" TabIndex="7" 
+                <CheckBox Grid.Row="5" Grid.Column="0" TabIndex="7"
                           IsChecked="{Binding GuiModelData.RunOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-									          NotifyOnValidationError=True, ValidatesOnDataErrors=True, 
+									          NotifyOnValidationError=True, ValidatesOnDataErrors=True,
                                               ValidatesOnExceptions=True}"
                           Margin="3" Content="Run on Startup"  />
             </Grid>
@@ -123,11 +123,11 @@
 
         <GridSplitter
                    Grid.Row="3"
-                   HorizontalAlignment="Stretch" 
-                   VerticalAlignment="Top"              
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Top"
                    ShowsPreview="true"
                    ResizeDirection="Rows"
-                   Panel.ZIndex="1"            
+                   Panel.ZIndex="1"
                    Height="3" />
 
         <GroupBox Margin="5" Grid.Row="2" Header="Proxify selected process(es)">
@@ -136,14 +136,14 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" 
+                <TextBox Grid.Row="0"
                     b:TextboxHelper.Watermark="Search"
                     Text="{Binding GuiModelData.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="0,0,0,3" />
                 <ListView IsSynchronizedWithCurrentItem="True" Grid.Row="1"
                           SelectedItem="{Binding GuiModelData.SelectedProcess}"
-                          ItemsSource="{Binding GuiModelData.ProcessesListDataView}" 
-                          b:GridViewSortBehavior.AutoSort="True"   
+                          ItemsSource="{Binding GuiModelData.ProcessesListDataView}"
+                          b:GridViewSortBehavior.AutoSort="True"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           ScrollViewer.CanContentScroll="True"
                           VirtualizingStackPanel.IsVirtualizing="True"
@@ -151,8 +151,8 @@
                           MinHeight="100">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <VirtualizingStackPanel 
-                                    IsVirtualizing="True" 
+                            <VirtualizingStackPanel
+                                    IsVirtualizing="True"
                                     VirtualizationMode="Recycling" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
@@ -188,7 +188,7 @@
                             <GridViewColumn Width="120" Header="Server IP" b:GridViewSortBehavior.PropertyName="ServerInfo.ServerIP">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Margin="3" HorizontalAlignment="Stretch" 
+                                        <TextBox Margin="3" HorizontalAlignment="Stretch"
                                                  Text="{Binding ServerInfo.ServerIP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -197,7 +197,7 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Grid>
-                                            <TextBox Margin="3" HorizontalAlignment="Stretch" 
+                                            <TextBox Margin="3" HorizontalAlignment="Stretch"
                                                      Text="{Binding ServerInfo.ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </Grid>
                                     </DataTemplate>
@@ -207,9 +207,9 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <RadioButton Content="Socks" 
+                                            <RadioButton Content="Socks"
                                                          IsChecked="{Binding ServerInfo.ServerType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CEnumBooleanConverter}, ConverterParameter=Socks}" Margin="3"  />
-                                            <RadioButton Content="HTTP Proxy" 
+                                            <RadioButton Content="HTTP Proxy"
                                                          IsChecked="{Binding ServerInfo.ServerType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CEnumBooleanConverter}, ConverterParameter=Proxy}" Margin="3"  />
                                         </StackPanel>
                                     </DataTemplate>
@@ -232,7 +232,7 @@
 
         <GroupBox Margin="5" Grid.Row="3" Header="Routed connections summary">
             <Grid Margin="5">
-                <ListView b:AutoScrollListBox.AutoScroll="True" 
+                <ListView b:AutoScrollListBox.AutoScroll="True"
                           IsSynchronizedWithCurrentItem="True"
                           b:GridViewSortBehavior.AutoSort="True"
                           b:AutoSizeListViewColumns.Enable="True"
@@ -244,8 +244,8 @@
                           ItemsSource="{Binding GuiModelData.RoutedConnectionsList}" MinHeight="100">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <VirtualizingStackPanel 
-                                    IsVirtualizing="True" 
+                            <VirtualizingStackPanel
+                                    IsVirtualizing="True"
                                     VirtualizationMode="Recycling" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
@@ -261,7 +261,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Url" 
+                            <GridViewColumn Header="Url"
                                             b:AutoSizeListViewColumns.AutoSizeColumn="True"
                                             b:GridViewSortBehavior.PropertyName="Url">
                                 <GridViewColumn.CellTemplate>
@@ -279,7 +279,7 @@
                                     <Image Stretch="UniformToFill" Width="16" Height="16" Source="images/delete.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Command="{Binding DoCopySelectedLine}"                               
+                            <MenuItem Command="{Binding DoCopySelectedLine}"
                               Header="Copy selected line to clipboard">
                                 <MenuItem.Icon>
                                     <Image Stretch="UniformToFill" Width="16" Height="16"  Source="images/CopyHS.png" HorizontalAlignment="Center" VerticalAlignment="Center" />

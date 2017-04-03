@@ -12,29 +12,19 @@ namespace ProcessProxifier.ViewModels
 {
     public class MainWindowViewModel
     {
-        #region Fields (3)
-
         readonly ProxyRouter _poxyRouter = new ProxyRouter();
-        readonly ProxifierSettings _settings;
         readonly SimpleTaskScheduler _taskScheduler = new SimpleTaskScheduler();
-
-        #endregion Fields
-
-        #region Constructors (1)
+        ProxifierSettings _settings;
 
         public MainWindowViewModel()
         {
             setupData();
             setupCommands();
-            _settings = SettingsManager.LoadSettings(GuiModelData);
+            loadSettings();
             manageAppExit();
             Task.Factory.StartNew(() => doStart(string.Empty));
             initTaskScheduler();
         }
-
-        #endregion Constructors
-
-        #region Properties (10)
 
         public DelegateCommand<string> DoClearLogs { set; get; }
 
@@ -56,17 +46,12 @@ namespace ProcessProxifier.ViewModels
 
         public ProxifierSettings GuiModelData { set; get; }
 
-        #endregion Properties
-
-        #region Methods (14)
-
-        // Private Methods (14)
-
         bool canDoStart(string data)
         {
             return GuiModelData.IsEnabled;
         }
 
+        // Private Methods (14)
         void currentExit(object sender, ExitEventArgs e)
         {
             exit();
@@ -91,7 +76,7 @@ namespace ProcessProxifier.ViewModels
         void doCopySelectedLine(string data)
         {
             if (GuiModelData.SelectedRoutedConnection == null) return;
-            (string.Format("{0}\t{1}", GuiModelData.SelectedRoutedConnection.ProcessName, GuiModelData.SelectedRoutedConnection.Url)).ClipboardSetText();
+            string.Format("{0}\t{1}", GuiModelData.SelectedRoutedConnection.ProcessName, GuiModelData.SelectedRoutedConnection.Url).ClipboardSetText();
         }
 
         void doStart(string data)
@@ -121,7 +106,7 @@ namespace ProcessProxifier.ViewModels
         {
             _poxyRouter.Shutdown();
             GuiModelData.RoutedConnectionsList.Clear();
-            SettingsManager.SaveSettings(GuiModelData);
+            saveSettings();
             GuiModelData.IsEnabled = true;
         }
 
@@ -137,7 +122,7 @@ namespace ProcessProxifier.ViewModels
 
         private void exit()
         {
-            SettingsManager.SaveSettings(GuiModelData);
+            saveSettings();
             _poxyRouter.Shutdown();
             _taskScheduler.Stop();
         }
@@ -179,17 +164,27 @@ namespace ProcessProxifier.ViewModels
             };
         }
 
+        private void loadSettings()
+        {
+            _settings = SettingsManager.LoadSettings(GuiModelData);
+        }
+
         private void manageAppExit()
         {
             Application.Current.Exit += currentExit;
             Application.Current.SessionEnding += currentSessionEnding;
         }
 
+        private void saveSettings()
+        {
+            SettingsManager.SaveSettings(GuiModelData, _settings);
+        }
+
         private void setupCommands()
         {
             DoStart = new DelegateCommand<string>(doStart, canDoStart);
             DoStop = new DelegateCommand<string>(doStop, data => true);
-            DoSave = new DelegateCommand<string>(data => SettingsManager.SaveSettings(GuiModelData), data => true);
+            DoSave = new DelegateCommand<string>(data => saveSettings(), data => true);
             DoClearLogs = new DelegateCommand<string>(data => GuiModelData.RoutedConnectionsList.Clear(), data => true);
             DoClearLogsList = new DelegateCommand<string>(data => GuiModelData.RoutedConnectionsList.Clear(), data => true);
             DoUseDefaultSettings = new DelegateCommand<string>(doUseDefaultSettings, data => true);
@@ -208,7 +203,5 @@ namespace ProcessProxifier.ViewModels
             GuiModelData.PropertyChanged += guiModelDataPropertyChanged;
             GuiModelData.ProcessesListDataView = CollectionViewSource.GetDefaultView(GuiModelData.ProcessesList);
         }
-
-        #endregion Methods
     }
 }

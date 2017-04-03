@@ -1,20 +1,15 @@
-﻿using System.ComponentModel;
-using System.Xml.Serialization;
+﻿using System;
+using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace ProcessProxifier.Models
 {
     public class Process : INotifyPropertyChanged
     {
-        #region Fields (4)
-
         bool _isEnabled;
         string _name;
         int _pid;
         ServerInfo _serverInfo = new ServerInfo();
-
-        #endregion Fields
-
-        #region Properties (5)
 
         public bool IsEnabled
         {
@@ -38,7 +33,7 @@ namespace ProcessProxifier.Models
 
         public string Path { set; get; }
 
-        [XmlIgnore]
+        [JsonIgnore]
         public int Pid
         {
             get { return _pid; }
@@ -59,19 +54,34 @@ namespace ProcessProxifier.Models
             }
         }
 
-        #endregion Properties
-
-
-
-        #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
         private void notifyPropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}, {Path}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            var process = obj as Process;
+            if (process == null)
+                return false;
+
+            return this.Path.Equals(process.Path, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                var hash = 17;
+                hash = hash * 23 + Path.GetHashCode();
+                return hash;
             }
         }
-        #endregion
     }
 }

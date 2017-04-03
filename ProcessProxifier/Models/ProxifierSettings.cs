@@ -1,27 +1,27 @@
 ﻿using System.ComponentModel;
-using System.Xml.Serialization;
+using Newtonsoft.Json;
 using ProcessProxifier.Utils;
 
 namespace ProcessProxifier.Models
 {
     public class ProxifierSettings : INotifyPropertyChanged
     {
-        #region Fields (11)
         bool _areAllChecked;
         bool _isEnabled = true;
-        AsyncObservableCollection<Process> _processesList;
+        AsyncObservableCollection<Process> _processesList = new AsyncObservableCollection<Process>();
         ICollectionView _processesListDataView;
         int _proxifierPort = 5656;
-        AsyncObservableCollection<RoutedConnection> _routedConnectionsList;
+        AsyncObservableCollection<RoutedConnection> _routedConnectionsList = new AsyncObservableCollection<RoutedConnection>();
         bool _runOnStartup = true;
         string _searchText;
         Process _selectedProcess;
         RoutedConnection _selectedRoutedConnection;
         ServerInfo _serverInfo = new ServerInfo();
 
-        #endregion Fields
-
-        #region Properties (11)
+        public ProxifierSettings()
+        {
+            ActiveProcessesList = new AsyncObservableCollection<Process>();
+        }
 
         public bool AreAllChecked
         {
@@ -46,7 +46,7 @@ namespace ProcessProxifier.Models
             }
         }
 
-        [XmlIgnore]
+        [JsonIgnore]
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -57,9 +57,10 @@ namespace ProcessProxifier.Models
             }
         }
 
+        [JsonIgnore]
         public AsyncObservableCollection<Process> ProcessesList
         {
-            get { return _processesList ?? new AsyncObservableCollection<Process>(); }
+            get { return _processesList; }
             set
             {
                 _processesList = value;
@@ -67,7 +68,12 @@ namespace ProcessProxifier.Models
             }
         }
 
-        [XmlIgnore]
+        public AsyncObservableCollection<Process> ActiveProcessesList
+        {
+            get; set;
+        }
+
+        [JsonIgnore]
         public ICollectionView ProcessesListDataView
         {
             get { return _processesListDataView; }
@@ -88,7 +94,7 @@ namespace ProcessProxifier.Models
             }
         }
 
-        [XmlIgnore]
+        [JsonIgnore]
         public AsyncObservableCollection<RoutedConnection> RoutedConnectionsList
         {
             get { return _routedConnectionsList; }
@@ -109,7 +115,7 @@ namespace ProcessProxifier.Models
             }
         }
 
-        [XmlIgnore]
+        [JsonIgnore]
         public string SearchText
         {
             get { return _searchText; }
@@ -120,7 +126,7 @@ namespace ProcessProxifier.Models
             }
         }
 
-        [XmlIgnore]
+        [JsonIgnore]
         public Process SelectedProcess
         {
             get { return _selectedProcess; }
@@ -131,7 +137,7 @@ namespace ProcessProxifier.Models
             }
         }
 
-        [XmlIgnore]
+        [JsonIgnore]
         public RoutedConnection SelectedRoutedConnection
         {
             get { return _selectedRoutedConnection; }
@@ -142,11 +148,6 @@ namespace ProcessProxifier.Models
             }
         }
 
-        #endregion Properties
-
-
-
-        #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
         private void notifyPropertyChanged(string propertyName)
         {
@@ -155,6 +156,5 @@ namespace ProcessProxifier.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        #endregion
     }
 }

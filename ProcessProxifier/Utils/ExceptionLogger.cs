@@ -10,8 +10,6 @@ namespace ProcessProxifier.Utils
 {
     public class ExceptionLogger
     {
-        #region Methods (6)
-
         // Public Methods (2) 
 
         public static string GetDetailedException(Exception exception)
@@ -130,7 +128,5 @@ namespace ProcessProxifier.Utils
                 return TimeSpan.FromSeconds(upTime.NextValue());
             }
         }
-
-        #endregion Methods
     }
 }

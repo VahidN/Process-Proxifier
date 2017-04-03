@@ -9,7 +9,7 @@ namespace ProcessProxifier.Core
     {
         public static string SettingsPath
         {
-            get { return Path.Combine(Application.StartupPath, "settings.xml"); }
+            get { return Path.Combine(Application.StartupPath, "settings.json"); }
         }
 
         public static ProxifierSettings LoadSettings(ProxifierSettings guiModelData)
@@ -24,14 +24,37 @@ namespace ProcessProxifier.Core
             return settings;
         }
 
-        public static void SaveSettings(ProxifierSettings guiModelData)
+        public static void SaveSettings(ProxifierSettings guiModelData, ProxifierSettings settings)
         {
             if (guiModelData.RunOnStartup)
                 RunOnWindowsStartup.Do();
             else
                 RunOnWindowsStartup.Undo();
 
+            addNewActiveItems(guiModelData, settings);
             SettingsSerializer.SaveSettings(guiModelData, SettingsPath);
+        }
+
+        private static void addNewActiveItems(ProxifierSettings guiModelData, ProxifierSettings settings)
+        {
+            foreach (var process in guiModelData.ProcessesList)
+            {
+                if (!process.IsEnabled && string.IsNullOrWhiteSpace(process.ServerInfo.ServerIP) &&
+                    process.ServerInfo.ServerPort == 0)
+                {
+                    continue;
+                }
+
+                if(!settings.ActiveProcessesList.Contains(process))
+                {
+                    settings.ActiveProcessesList.Add(process);
+                }
+
+                if (!guiModelData.ActiveProcessesList.Contains(process))
+                {
+                    guiModelData.ActiveProcessesList.Add(process);
+                }
+            }
         }
     }
 }

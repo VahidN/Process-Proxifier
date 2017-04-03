@@ -4,15 +4,9 @@ namespace ProcessProxifier.Models
 {
     public class ServerInfo : INotifyPropertyChanged
     {
-        #region Fields
-
         ServerType _serverType;
         string _serverIP = string.Empty;
         int _serverPort;
-
-        #endregion Fields
-
-        #region Properties (4)
 
         public ServerType ServerType
         {
@@ -44,11 +38,6 @@ namespace ProcessProxifier.Models
             }
         }
 
-        #endregion Properties
-
-
-
-        #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
         private void notifyPropertyChanged(string propertyName)
         {
@@ -57,6 +46,5 @@ namespace ProcessProxifier.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        #endregion
     }
 }
