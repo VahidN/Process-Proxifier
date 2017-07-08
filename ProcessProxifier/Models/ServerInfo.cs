@@ -4,17 +4,21 @@ namespace ProcessProxifier.Models
 {
     public class ServerInfo : INotifyPropertyChanged
     {
-        ServerType _serverType;
+        string _password = string.Empty;
         string _serverIP = string.Empty;
         int _serverPort;
+        ServerType _serverType;
+        string _username = string.Empty;
 
-        public ServerType ServerType
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Password
         {
-            get { return _serverType; }
+            get { return _password; }
             set
             {
-                _serverType = value;
-                notifyPropertyChanged("ServerType");
+                _password = value;
+                notifyPropertyChanged("Password");
             }
         }
 
@@ -38,7 +42,26 @@ namespace ProcessProxifier.Models
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public ServerType ServerType
+        {
+            get { return _serverType; }
+            set
+            {
+                _serverType = value;
+                notifyPropertyChanged("ServerType");
+            }
+        }
+
+        public string Username
+        {
+            get { return _username; }
+            set
+            {
+                _username = value;
+                notifyPropertyChanged("Username");
+            }
+        }
+
         private void notifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)

@@ -5,7 +5,7 @@
         xmlns:b="clr-namespace:ProcessProxifier.Behaviors"
         xmlns:c="clr-namespace:ProcessProxifier.Converters"
         xmlns:vm="clr-namespace:ProcessProxifier.ViewModels"
-        Title="ProcessProxifier V1.2" Height="615" Width="731">
+        Title="ProcessProxifier V1.3" Height="715" Width="731">
     <Window.Resources>
         <vm:MainWindowViewModel x:Key="VmMainWindowViewModel" />
         <c:FileToImageIconConverter x:Key="CFileToImageIconConverter" />
@@ -21,8 +21,8 @@
 
         <StackPanel VerticalAlignment="Stretch" Orientation="Horizontal" Grid.Row="0"  Margin="5">
             <Button x:Name="BtnStart" IsEnabled="{Binding GuiModelData.IsEnabled}"
-                Command="{Binding DoStart}" Width="30" Height="30"
-                ToolTip="Start">
+                    Command="{Binding DoStart}" Width="30" Height="30"
+                    ToolTip="Start">
                 <Rectangle Width="10" Height="10">
                     <Rectangle.Fill>
                         <VisualBrush Stretch="Fill"	Visual="{StaticResource appbar_play}" />
@@ -31,8 +31,8 @@
             </Button>
 
             <Button Width="30" Height="30"
-                Command="{Binding DoStop}"
-                ToolTip="Stop">
+                    Command="{Binding DoStop}"
+                    ToolTip="Stop">
                 <Rectangle Width="10" Height="10">
                     <Rectangle.Fill>
                         <VisualBrush Stretch="Fill"	Visual="{StaticResource appbar_stop}" />
@@ -41,8 +41,8 @@
             </Button>
             <Rectangle Name="Rectangle" Height="23" Width="1" Fill="Gray" VerticalAlignment="Stretch" Margin="2,0" />
             <Button Width="30" Height="30"
-                Command="{Binding DoSave}"
-                ToolTip="Save Settings">
+                    Command="{Binding DoSave}"
+                    ToolTip="Save Settings">
                 <Rectangle Width="10" Height="10">
                     <Rectangle.Fill>
                         <VisualBrush Stretch="Fill"	Visual="{StaticResource appbar_disk}" />
@@ -50,8 +50,8 @@
                 </Rectangle>
             </Button>
             <Button Width="30" Height="30"
-                Command="{Binding DoRefresh}"
-                ToolTip="Refresh Processes List">
+                    Command="{Binding DoRefresh}"
+                    ToolTip="Refresh Processes List">
                 <Rectangle Width="10" Height="10">
                     <Rectangle.Fill>
                         <VisualBrush Stretch="Fill"	Visual="{StaticResource appbar_refresh}" />
@@ -59,8 +59,8 @@
                 </Rectangle>
             </Button>
             <Button Width="30" Height="30"
-                Command="{Binding DoClearLogs}"
-                ToolTip="Clear logs">
+                    Command="{Binding DoClearLogs}"
+                    ToolTip="Clear logs">
                 <Rectangle Width="10" Height="10">
                     <Rectangle.Fill>
                         <VisualBrush Stretch="Fill"	Visual="{StaticResource appbar_page_minus}" />
@@ -88,16 +88,16 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Margin="3" Text="Server IP" />
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding GuiModelData.DefaultServerInfo.ServerIP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-									                    NotifyOnValidationError=True, ValidatesOnDataErrors=True,
-                                                        ValidatesOnExceptions=True}"
+                         NotifyOnValidationError=True, ValidatesOnDataErrors=True,
+                         ValidatesOnExceptions=True}"
                          Name="TxtServerIp"
                          Margin="3"  Width="150" HorizontalAlignment="Left" TabIndex="2" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" Text="Server Port" />
                 <TextBox Grid.Column="1" Grid.Row="1"
                          Text="{Binding GuiModelData.DefaultServerInfo.ServerPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-						                NotifyOnValidationError=True, ValidatesOnDataErrors=True,
-                                        ValidatesOnExceptions=True}"
+                         NotifyOnValidationError=True, ValidatesOnDataErrors=True,
+                         ValidatesOnExceptions=True}"
                          Margin="3" Width="150" HorizontalAlignment="Left" TabIndex="3" />
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Server Type" Margin="3" />
@@ -106,29 +106,45 @@
                     <RadioButton Content="HTTP Proxy Server" IsChecked="{Binding GuiModelData.DefaultServerInfo.ServerType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CEnumBooleanConverter}, ConverterParameter=Proxy}" Margin="3" GroupName="G1" />
                 </StackPanel>
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Margin="3" Text="Proxifier Port" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="3" Text="Username" />
                 <TextBox Grid.Column="1" Grid.Row="3"
-                         Text="{Binding GuiModelData.ProxifierPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-						                NotifyOnValidationError=True, ValidatesOnDataErrors=True,
-                                        ValidatesOnExceptions=True}"
+                         Text="{Binding GuiModelData.DefaultServerInfo.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                         NotifyOnValidationError=True, ValidatesOnDataErrors=True,
+                         ValidatesOnExceptions=True}"
                          Margin="3" Width="150" HorizontalAlignment="Left" TabIndex="3" />
 
-                <CheckBox Grid.Row="5" Grid.Column="0" TabIndex="7"
+                <TextBlock Grid.Row="4" Grid.Column="0" Margin="3" Text="Password" />
+                <TextBox Grid.Column="1" Grid.Row="4"
+                         Text="{Binding GuiModelData.DefaultServerInfo.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                         NotifyOnValidationError=True, ValidatesOnDataErrors=True,
+                         ValidatesOnExceptions=True}"
+                         Margin="3" Width="150" HorizontalAlignment="Left" TabIndex="3" />
+
+
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Margin="3" Text="Proxifier Port" />
+                <TextBox Grid.Column="1" Grid.Row="5"
+                         Text="{Binding GuiModelData.ProxifierPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                         NotifyOnValidationError=True, ValidatesOnDataErrors=True,
+                         ValidatesOnExceptions=True}"
+                         Margin="3" Width="150" HorizontalAlignment="Left" TabIndex="3" />
+
+                <CheckBox Grid.Row="6" Grid.Column="0" TabIndex="7"
                           IsChecked="{Binding GuiModelData.RunOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-									          NotifyOnValidationError=True, ValidatesOnDataErrors=True,
-                                              ValidatesOnExceptions=True}"
+                          NotifyOnValidationError=True, ValidatesOnDataErrors=True,
+                          ValidatesOnExceptions=True}"
                           Margin="3" Content="Run on Startup"  />
             </Grid>
         </GroupBox>
 
         <GridSplitter
-                   Grid.Row="3"
-                   HorizontalAlignment="Stretch"
-                   VerticalAlignment="Top"
-                   ShowsPreview="true"
-                   ResizeDirection="Rows"
-                   Panel.ZIndex="1"
-                   Height="3" />
+            Grid.Row="3"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            ShowsPreview="true"
+            ResizeDirection="Rows"
+            Panel.ZIndex="1"
+            Height="3" />
 
         <GroupBox Margin="5" Grid.Row="2" Header="Proxify selected process(es)">
             <Grid Margin="5">
@@ -137,9 +153,9 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBox Grid.Row="0"
-                    b:TextboxHelper.Watermark="Search"
-                    Text="{Binding GuiModelData.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="0,0,0,3" />
+                         b:TextboxHelper.Watermark="Search"
+                         Text="{Binding GuiModelData.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,0,0,3" />
                 <ListView IsSynchronizedWithCurrentItem="True" Grid.Row="1"
                           SelectedItem="{Binding GuiModelData.SelectedProcess}"
                           ItemsSource="{Binding GuiModelData.ProcessesListDataView}"
@@ -152,8 +168,8 @@
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel
-                                    IsVirtualizing="True"
-                                    VirtualizationMode="Recycling" />
+                                IsVirtualizing="True"
+                                VirtualizationMode="Recycling" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.View>
@@ -215,6 +231,24 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
+
+                            <GridViewColumn Width="120" Header="Username" b:GridViewSortBehavior.PropertyName="ServerInfo.Username">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Margin="3" HorizontalAlignment="Stretch"
+                                                 Text="{Binding ServerInfo.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Width="120" Header="Password" b:GridViewSortBehavior.PropertyName="ServerInfo.Password">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Margin="3" HorizontalAlignment="Stretch"
+                                                 Text="{Binding ServerInfo.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                     <ListView.ContextMenu>
@@ -245,8 +279,8 @@
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel
-                                    IsVirtualizing="True"
-                                    VirtualizationMode="Recycling" />
+                                IsVirtualizing="True"
+                                VirtualizationMode="Recycling" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.View>
@@ -280,7 +314,7 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Command="{Binding DoCopySelectedLine}"
-                              Header="Copy selected line to clipboard">
+                                      Header="Copy selected line to clipboard">
                                 <MenuItem.Icon>
                                     <Image Stretch="UniformToFill" Width="16" Height="16"  Source="images/CopyHS.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </MenuItem.Icon>

@@ -32,6 +32,11 @@ namespace ProcessProxifier.Core
             foreach (var systemProcess in newSystemProcesses)
             {
                 var path = systemProcess.GetPath();
+                if(string.IsNullOrWhiteSpace(path)) // TODO: improve
+                {
+                    continue;
+                }
+
                 var newProcess = new Process
                 {
                     Name = systemProcess.ProcessName,

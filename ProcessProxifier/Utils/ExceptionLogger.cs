@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace ProcessProxifier.Utils
 {
-    public class ExceptionLogger
+    public static class ExceptionLogger
     {
-        // Public Methods (2) 
+        // Public Methods (2)
 
         public static string GetDetailedException(Exception exception)
         {
@@ -81,7 +81,7 @@ namespace ProcessProxifier.Utils
                 /*کاری نمی‌شود کرد. بدترین حالت ممکن است*/
             }
         }
-        // Private Methods (4) 
+        // Private Methods (4)
 
         private static string getExceptionCallStack(Exception e)
         {
